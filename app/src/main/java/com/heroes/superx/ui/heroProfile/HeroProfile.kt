@@ -46,8 +46,11 @@ fun HeroProfile() {
         }
     }
 
+    coroutineScope.launch {
+        isInTeam.value = viewModel.mIsInTeam.value
+    }
+
     hero.value?.let {
-        isInTeam.value = viewModel.isInTeam(hero.value?.id!!)
 
         LazyColumn(
             modifier = Modifier.fillMaxSize()
@@ -72,7 +75,7 @@ fun HeroProfile() {
                         if (isInTeam.value)
                             viewModel.removeTeamMember(it.id)
                         else
-                            viewModel.addTeamMember(it.id)
+                            viewModel.addTeamMember(it)
                     }
 
                     Spacer(modifier = Modifier.height(100.dp))

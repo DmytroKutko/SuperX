@@ -7,6 +7,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -47,6 +48,7 @@ import com.heroes.superx.models.Work
 import com.heroes.superx.ui.theme.SuperHeroesTheme
 import kotlinx.coroutines.launch
 
+const val GRID_COUNT = 3
 
 @SuppressLint("CoroutineCreationDuringComposition")
 @Composable
@@ -63,13 +65,18 @@ fun HeroesList(
         }
     }
 
-    LazyVerticalGrid(modifier = Modifier.padding(horizontal = 8.dp), columns = GridCells.Fixed(3)) {
+    LazyVerticalGrid(modifier = Modifier.padding(horizontal = 8.dp), columns = GridCells.Fixed(GRID_COUNT)) {
         list.value.forEach { hero ->
             item {
                 HeroItem(
                     hero,
                     onHeroClick
                 )
+            }
+        }
+        for (i in 0..GRID_COUNT) { // Bottom space
+            item {
+                Spacer(modifier = Modifier.padding(bottom = 56.dp))
             }
         }
     }
@@ -149,7 +156,7 @@ fun HeroImage(imageUrl: String, modifier: Modifier = Modifier) {
 @Composable
 fun HeroesListPreview() {
     SuperHeroesTheme {
-        HeroesList {}
+        HeroesList(onHeroClick = {})
     }
 }
 

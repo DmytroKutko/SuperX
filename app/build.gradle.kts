@@ -80,6 +80,15 @@ dependencies {
     implementation("com.google.dagger:hilt-android:2.48")
     kapt("com.google.dagger:hilt-android-compiler:2.48")
 
+    //Moshi
+    implementation("com.squareup.moshi:moshi-kotlin:1.14.0")
+
+    //Cache
+    implementation("com.jakewharton:disklrucache:2.0.2")
+
+    //Byteunits
+    implementation("com.jakewharton.byteunits:byteunits:0.9.1")
+
     implementation("com.google.code.gson:gson:2.8.9")
     implementation("org.jsoup:jsoup:1.14.3")
     implementation("androidx.core:core-ktx:1.12.0")

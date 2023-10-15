@@ -4,25 +4,27 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.heroes.superx.models.Hero
 import com.heroes.superx.repository.HeroesListRepo
-import com.heroes.superx.util.SharedPreferenceUtil
+import com.heroes.superx.util.CacheInterface
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val repo: HeroesListRepo,
-    private val preferenceUtil: SharedPreferenceUtil,
+    private val cache: CacheInterface
 ) : ViewModel() {
 
     val heroesFlow: MutableStateFlow<List<Hero>> = MutableStateFlow(listOf())
 
     private val currentHero: MutableStateFlow<Hero?> = MutableStateFlow(null)
     val mCurrentHero: StateFlow<Hero?> = currentHero
+
+    private val isInTeam: MutableStateFlow<Boolean> = MutableStateFlow(false)
+    val mIsInTeam: StateFlow<Boolean> = isInTeam
 
 
     init {
@@ -38,20 +40,25 @@ class MainViewModel @Inject constructor(
     fun setHero(hero: Hero) {
         viewModelScope.launch {
             currentHero.emit(hero)
+            isInTeam(hero.id)
         }
     }
 
-    fun addTeamMember(id: Int) {
+    fun addTeamMember(hero: Hero) {
         viewModelScope.launch {
-            preferenceUtil.addTeamMember(id.toString())
+            cache.addTeamMember(hero)
         }
     }
 
     fun removeTeamMember(id: Int) {
         viewModelScope.launch {
-            preferenceUtil.removeTeamMember(id.toString())
+//            preferenceUtil.removeTeamMember(id.toString())
         }
     }
 
-    fun isInTeam(id: Int): Boolean = preferenceUtil.isInTeam(id.toString())
+    private fun isInTeam(id: Int) {
+        viewModelScope.launch {
+            isInTeam.value = cache.isInTeam(id)
+        }
+    }
 }
