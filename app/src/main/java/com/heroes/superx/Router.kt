@@ -18,8 +18,8 @@ import kotlinx.coroutines.launch
 
 
 sealed class BottomNavItem(var title: String, var icon: Int, var screen_route: String) {
-    object HeroesList : BottomNavItem("Heroes List", R.drawable.baseline_list_24, "list_heroes")
-    object MyTeam : BottomNavItem("My Team", R.drawable.baseline_groups_3_24, "my_team")
+    data object HeroesList : BottomNavItem("Heroes List", R.drawable.baseline_list_24, "list_heroes")
+    data object MyTeam : BottomNavItem("My Team", R.drawable.baseline_groups_3_24, "my_team")
 }
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
