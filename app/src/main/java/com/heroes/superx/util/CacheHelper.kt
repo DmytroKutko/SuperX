@@ -25,7 +25,7 @@ interface CacheInterface {
     suspend fun addAllHeroes(list: List<Hero>)
     suspend fun getAllHeroes(): List<Hero>?
     suspend fun addTeamMember(hero: Hero)
-    suspend fun removeTeamMember(hero: Hero)
+    suspend fun removeTeamMember(hero: Hero): List<Hero>?
     suspend fun isInTeam(id: Int): Boolean
     suspend fun getAllTeamMembers(): List<Hero>?
     suspend fun isEmpty(): Boolean
@@ -79,15 +79,24 @@ class PersistentCache(
         val data = getAllTeamMembers()?.toMutableList() ?: mutableListOf()
         data.add(hero)
         val myTeamJson = moshi.adapter(MyTeamCache::class.java).toJson(MyTeamCache(data))
-        cache.edit(MY_TEAM_CACHE).set(0, myTeamJson)
+        val editor = cache.edit(MY_TEAM_CACHE)
+        editor.set(0, myTeamJson)
+        editor.commit()
     }
 
-    override suspend fun removeTeamMember(hero: Hero) = withContext(ioDispatcher) {
-
+    override suspend fun removeTeamMember(hero: Hero): List<Hero>? = withContext(ioDispatcher) {
+        val myTeam = getAllTeamMembers()?.toMutableList()
+        myTeam?.remove(hero)
+        val myTeamJson = moshi.adapter(MyTeamCache::class.java).toJson(MyTeamCache(myTeam?.toList() ?: listOf()))
+        val editor = cache.edit(MY_TEAM_CACHE)
+        editor.set(0, myTeamJson)
+        editor.commit()
+        getAllTeamMembers()
     }
 
     override suspend fun isInTeam(id: Int): Boolean = withContext(ioDispatcher) {
-        return@withContext false //TODO
+        val myTeam = getAllTeamMembers()
+        return@withContext myTeam?.find<Hero> { it.id == id } != null
     }
 
     override suspend fun getAllTeamMembers(): List<Hero>? = withContext(ioDispatcher) {
@@ -129,11 +138,14 @@ class MemoryCache(
     }
 
     override suspend fun removeTeamMember(hero: Hero) = withContext(ioDispatcher) {
-
+        val team = myTeamMap[MY_TEAM_CACHE]?.team?.toMutableList()
+        team?.remove(hero)
+        return@withContext team?.toList() ?: listOf()
     }
 
     override suspend fun isInTeam(id: Int): Boolean = withContext(ioDispatcher) {
-        return@withContext false //TODO
+        val myTeam = getAllTeamMembers()
+        return@withContext myTeam?.find<Hero> { it.id == id } != null
     }
 
     override suspend fun getAllTeamMembers(): List<Hero>? = withContext(ioDispatcher) {

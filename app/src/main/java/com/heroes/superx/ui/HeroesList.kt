@@ -1,4 +1,4 @@
-package com.heroes.superx.ui.heroesList
+package com.heroes.superx.ui
 
 import android.annotation.SuppressLint
 import android.util.Log
@@ -65,7 +65,9 @@ fun HeroesList(
         }
     }
 
-    LazyVerticalGrid(modifier = Modifier.padding(horizontal = 8.dp), columns = GridCells.Fixed(GRID_COUNT)) {
+    LazyVerticalGrid(modifier = Modifier.padding(horizontal = 8.dp), columns = GridCells.Fixed(
+        GRID_COUNT
+    )) {
         list.value.forEach { hero ->
             item {
                 HeroItem(

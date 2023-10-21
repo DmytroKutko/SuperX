@@ -47,12 +47,14 @@ class MainViewModel @Inject constructor(
     fun addTeamMember(hero: Hero) {
         viewModelScope.launch {
             cache.addTeamMember(hero)
+            isInTeam(hero.id)
         }
     }
 
-    fun removeTeamMember(id: Int) {
+    fun removeTeamMember(hero: Hero) {
         viewModelScope.launch {
-//            preferenceUtil.removeTeamMember(id.toString())
+            cache.removeTeamMember(hero)
+            isInTeam(hero.id)
         }
     }
 

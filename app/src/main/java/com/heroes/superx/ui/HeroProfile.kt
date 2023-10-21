@@ -1,4 +1,4 @@
-package com.heroes.superx.ui.heroProfile
+package com.heroes.superx.ui
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Column
@@ -29,7 +29,6 @@ import com.heroes.superx.models.Appearance
 import com.heroes.superx.models.Hero
 import com.heroes.superx.models.Powerstats
 import com.heroes.superx.models.Work
-import com.heroes.superx.ui.heroesList.HeroImage
 import kotlinx.coroutines.launch
 
 @SuppressLint("CoroutineCreationDuringComposition")
@@ -39,6 +38,7 @@ fun HeroProfile() {
     val viewModel: MainViewModel = hiltViewModel()
     val hero = remember { mutableStateOf<Hero?>(null) }
     val isInTeam = remember { mutableStateOf(false) }
+    val buttonAddRemove = remember { mutableStateOf("Add to your team") }
 
     coroutineScope.launch {
         viewModel.mCurrentHero.collect {
@@ -47,7 +47,13 @@ fun HeroProfile() {
     }
 
     coroutineScope.launch {
-        isInTeam.value = viewModel.mIsInTeam.value
+        viewModel.mIsInTeam.collect { isTeamMember ->
+            isInTeam.value = isTeamMember
+            if (isTeamMember)
+                buttonAddRemove.value = "Remove"
+            else
+                buttonAddRemove.value = "Add to your team"
+        }
     }
 
     hero.value?.let {
@@ -70,12 +76,15 @@ fun HeroProfile() {
 
                     Work(work = it.work)
 
-                    val actionText = if (isInTeam.value) "Remove" else "Add to your team"
-                    Actions(actionText) {
-                        if (isInTeam.value)
-                            viewModel.removeTeamMember(it.id)
-                        else
+
+                    Actions(buttonAddRemove.value) {
+                        if (isInTeam.value) {
+//                            buttonAddRemove.value = "Remove"
+                            viewModel.removeTeamMember(it)
+                        } else {
+//                            buttonAddRemove.value = "Add to your team"
                             viewModel.addTeamMember(it)
+                        }
                     }
 
                     Spacer(modifier = Modifier.height(100.dp))

@@ -12,8 +12,8 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.heroes.superx.ui.heroesList.HeroesList
-import com.heroes.superx.ui.myTeam.MyTeam
+import com.heroes.superx.ui.HeroesList
+import com.heroes.superx.ui.MyTeam
 import kotlinx.coroutines.launch
 
 
