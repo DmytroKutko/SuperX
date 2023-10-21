@@ -28,8 +28,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.rememberNavController
-import com.heroes.superx.ui.BottomNavigationMenu
-import com.heroes.superx.ui.HeroProfile
+import com.heroes.superx.view.BottomNavigationMenu
+import com.heroes.superx.view.HeroProfile
 import com.heroes.superx.ui.theme.SuperHeroesTheme
 import dagger.hilt.android.AndroidEntryPoint
 

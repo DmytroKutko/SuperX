@@ -1,4 +1,4 @@
-package com.heroes.superx.ui
+package com.heroes.superx.view
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Column
@@ -79,10 +79,8 @@ fun HeroProfile() {
 
                     Actions(buttonAddRemove.value) {
                         if (isInTeam.value) {
-//                            buttonAddRemove.value = "Remove"
                             viewModel.removeTeamMember(it)
                         } else {
-//                            buttonAddRemove.value = "Add to your team"
                             viewModel.addTeamMember(it)
                         }
                     }

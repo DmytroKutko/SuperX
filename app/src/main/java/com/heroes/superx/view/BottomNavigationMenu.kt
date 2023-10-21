@@ -1,4 +1,4 @@
-package com.heroes.superx.ui
+package com.heroes.superx.view
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.slideInVertically

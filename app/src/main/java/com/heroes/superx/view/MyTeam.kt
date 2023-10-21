@@ -1,4 +1,4 @@
-package com.heroes.superx.ui
+package com.heroes.superx.view
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
@@ -9,11 +9,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.Text
@@ -37,8 +34,6 @@ import com.heroes.superx.R
 import com.heroes.superx.models.Hero
 import com.heroes.superx.viewModels.MyTeamViewModel
 import kotlinx.coroutines.launch
-
-private const val TEAM_GRID_COUNT = 2
 
 @SuppressLint("CoroutineCreationDuringComposition")
 @Composable
@@ -88,22 +83,17 @@ fun TeamStats(team: Set<Hero>) {
 
 @Composable
 fun YourSquad(team: Set<Hero>) {
-    LazyVerticalGrid(
-        modifier = Modifier.padding(horizontal = 8.dp),
-        columns = GridCells.Fixed(TEAM_GRID_COUNT),
+    Row(
+        modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.Center
     )
     {
         team.forEach {
-            item {
-                HeroItem(hero = it)
-            }
+            HeroItem(hero = it)
         }
 
         for (i in 0..<(4 - team.size)) {
-            item {
-                BlankHero()
-            }
+            BlankHero()
         }
     }
 }

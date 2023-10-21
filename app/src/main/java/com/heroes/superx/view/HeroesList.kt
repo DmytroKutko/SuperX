@@ -1,4 +1,4 @@
-package com.heroes.superx.ui
+package com.heroes.superx.view
 
 import android.annotation.SuppressLint
 import android.util.Log
@@ -34,6 +34,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.heroes.superx.viewModels.MainViewModel
